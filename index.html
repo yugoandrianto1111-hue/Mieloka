@@ -1,316 +1,218 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Mieloka — Marketplace UMKM lokal di bidang Food & Beverage dengan menu olahan mie seperti Martabak Mie, Martabak Usus, Somtam, Tomyam, dan Es Jemie.">
-  <meta name="author" content="Mieloka UMKM">
-  <title>Mieloka Marketplace — UMKM Lokal Mie & F&B</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mieloka — Marketplace Mie Lokal</title>
+  <meta name="description" content="Mieloka — UMKM lokal F&B. Martabak, Somtam, Tomyam, Mie Thai, Es Jimi. Pesan via WhatsApp." />
   <style>
-    :root {
-      --bg: #0f1724;
-      --card: #101b2d;
-      --accent: #ffb86b;
-      --text: #e6eef6;
-      --muted: #a0a8b8;
-      --radius: 12px;
-      --shadow: 0 6px 18px rgba(2, 6, 23, 0.5);
-    }
-
-    body {
-      margin: 0;
-      font-family: "Inter", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    header {
-      background: linear-gradient(180deg, #081226, #0c1426);
-      padding: 24px;
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.8rem;
-      color: var(--accent);
-    }
-
-    header p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    main {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 32px 16px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-    }
-
-    .card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-    }
-
-    .card-body {
-      padding: 12px 16px;
-    }
-
-    .card-body h3 {
-      margin: 0;
-      font-size: 1.1rem;
-      color: var(--text);
-    }
-
-    .card-body p {
-      margin: 6px 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-      min-height: 36px;
-    }
-
-    .card-footer {
-      padding: 12px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #0b1324;
-    }
-
-    .price {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .btn {
-      background: var(--accent);
-      color: #0c1424;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
-    footer {
-      text-align: center;
-      padding: 16px;
-      font-size: 0.9rem;
-      color: var(--muted);
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    /* Floating cart */
-    #cart-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--accent);
-      color: #0c1424;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      z-index: 999;
-    }
-
-    /* Modal */
-    #cart-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 24px;
-      max-width: 600px;
-      width: 100%;
-      box-shadow: var(--shadow);
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .cart-item span {
-      font-size: 0.9rem;
-    }
-
-    .cart-actions {
-      text-align: right;
-      margin-top: 16px;
-    }
-
-    .cart-actions .btn {
-      margin-left: 8px;
-    }
+    :root{--bg:#071226;--card:#0d1624;--accent:#ffb86b;--text:#e6eef6;--muted:#98a6b6}
+    body{margin:0;font-family:Inter,system-ui; background:var(--bg);color:var(--text)}
+    .wrap{max-width:1000px;margin:28px auto;padding:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+    .card{background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+    .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .btn{background:var(--accent);color:#071226;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    .cart-float{position:fixed;right:18px;bottom:18px;background:var(--accent);padding:12px 14px;border-radius:999px;z-index:999;cursor:pointer;color:#071226}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:1200}
+    .modal .panel{width:100%;max-width:760px;background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .field{margin-bottom:10px}
+    label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px}
+    input[type="text"], input[type="tel"], textarea, select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+    textarea{min-height:72px;resize:vertical}
+    .small{font-size:13px;color:var(--muted)}
+    .flex{display:flex;gap:8px}
   </style>
 </head>
 <body>
-  <header>
-    <h1>MIELOKA</h1>
-    <p>UMKM lokal di bidang Food & Beverage — olahan mie khas Indonesia & Asia</p>
-  </header>
+  <main class="wrap">
+    <header style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
+      <div>
+        <h1 style="margin:0;color:var(--accent)">MIELOKA</h1>
+        <div class="small">UMKM Lokal F&B — Martabak • Somtam • Tomyam • Mie Thai • Es Jimi</div>
+      </div>
+    </header>
 
-  <main>
-    <h2 style="text-align:center;">🍜 Menu Unggulan Mieloka</h2>
-    <div class="grid" id="menu-list"></div>
+    <section>
+      <h2 style="margin:6px 0 12px">Menu</h2>
+      <div class="grid" id="catalog"></div>
+    </section>
+
+    <footer style="margin-top:18px" class="small">© <span id="year"></span> Mieloka</footer>
   </main>
 
-  <footer>
-    © <span id="year"></span> Mieloka — UMKM Lokal | Powered by GitHub Pages
-  </footer>
+  <div class="cart-float" id="cart-float">🛒 Keranjang (<span id="cart-count">0</span>)</div>
 
-  <div id="cart-float">🛒 Keranjang (<span id="cart-count">0</span>)</div>
-
-  <div id="cart-modal">
-    <div class="modal-content">
-      <h3>Keranjang Pesanan</h3>
-      <div id="cart-items"></div>
-      <div class="cart-actions">
-        <button class="btn" id="btn-clear">Kosongkan</button>
-        <button class="btn" id="btn-checkout">Checkout</button>
+  <!-- Checkout Modal -->
+  <div class="modal" id="modal">
+    <div class="panel" role="dialog" aria-modal="true">
+      <h3>Checkout — Isi Data Pemesanan</h3>
+      <div class="field">
+        <label>Ringkasan Pesanan</label>
+        <div id="order-summary" style="background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;font-size:13px"></div>
       </div>
+
+      <form id="checkout-form">
+        <div class="field"><label>Nama Pemesan *</label><input id="cust-name" type="text" required></div>
+        <div class="field"><label>No. Telepon / WhatsApp *</label><input id="cust-tel" type="tel" required placeholder="08xxxxxxxxxx"></div>
+        <div class="field"><label>Alamat Lengkap</label><textarea id="cust-address"></textarea></div>
+
+        <div class="flex">
+          <div style="flex:1">
+            <label>Pengantaran *</label>
+            <select id="cust-delivery" required>
+              <option value="Pickup">Pickup</option>
+              <option value="Kurir Lokal">Kurir Lokal</option>
+              <option value="GoFood/GrabFood">GoFood / GrabFood</option>
+            </select>
+          </div>
+          <div style="width:230px">
+            <label>Pembayaran *</label>
+            <select id="cust-pay" required>
+              <option value="COD">COD (Bayar di tempat)</option>
+              <option value="E-Wallet (OVO/Dana/ShopeePay)">E-Wallet (OVO / DANA / Shopeepay)</option>
+              <option value="Transfer Bank">Transfer Bank</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field"><label>Catatan</label><textarea id="cust-note"></textarea></div>
+        <div style="text-align:right;display:flex;gap:8px;justify-content:flex-end">
+          <button type="button" class="btn ghost" id="btn-cancel">Batal</button>
+          <button type="submit" class="btn" id="btn-submit">Kirim Pesanan</button>
+        </div>
+        <div id="submit-message" class="small" style="margin-top:10px"></div>
+      </form>
     </div>
   </div>
 
   <script>
-    const PRODUCTS = [
-      {id:'1', name:'Martabak Mie Original', desc:'Martabak mie isi telur dan bumbu rahasia khas Mieloka.', price:22000, img:'https://picsum.photos/seed/martabakmie/400/300'},
-      {id:'2', name:'Martabak Usus', desc:'Gurih, pedas, renyah — favorit anak muda.', price:25000, img:'https://picsum.photos/seed/martabakusus/400/300'},
-      {id:'3', name:'Somtam (Salad Mie)', desc:'Rasa asam manis pedas segar khas Thailand.', price:28000, img:'https://picsum.photos/seed/somtam/400/300'},
-      {id:'4', name:'Tomyam Mie Kuah', desc:'Kuah tomyam pedas gurih dengan mie dan udang.', price:30000, img:'https://picsum.photos/seed/tomyam/400/300'},
-      {id:'5', name:'Es Jemie (Coming Soon)', desc:'Minuman segar khas Mieloka berbahan jemie.', price:12000, img:'https://picsum.photos/seed/esjemie/400/300'},
-    ];
+  // === CONFIG GOOGLE FORM ===
+  const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe5psqJPU768dvuCwbjXtdExS6j1AyUexcjBTJvYPWW0Cb0TA/formResponse';
+  const GF_ENTRY_IDS = {
+    cust_name: 'entry.398970537',
+    cust_tel: 'entry.1806170338',
+    cust_address: 'entry.822463516',
+    cust_delivery: 'entry.843995223',
+    cust_pay: 'entry.801141337',
+    cust_note: 'entry.610885754',
+    order_summary: 'entry.1361649100'
+  };
+  const OWNER_WA_NUMBER = '6285816415868';
+  // === MENU DATA ===
+  const PRODUCTS = [
+    // Martabak
+    {id:'m1', name:'Martabak Mie', price:22000},
+    {id:'m2', name:'Martabak Usus', price:25000},
+    {id:'m3', name:'Martabak Ayam', price:27000},
+    {id:'m4', name:'Martabak Rempelo Ati', price:27000},
+    {id:'m5', name:'Martabak Gajeh', price:28000},
+    {id:'m6', name:'Martabak Aneka Rasa + Level', price:29000},
+    // Somtam
+    {id:'s1', name:'Somtam Tanpa Protein', price:25000},
+    {id:'s2', name:'Somtam Udang', price:28000},
+    {id:'s3', name:'Somtam Cumi', price:28000},
+    {id:'s4', name:'Somtam Rajungan/Kepiting', price:30000},
+    {id:'s5', name:'Somtam Kerang', price:29000},
+    // Tomyam
+    {id:'t1', name:'Tomyam Bakso-baksoan', price:28000},
+    {id:'t2', name:'Tomyam Seafood', price:32000},
+    {id:'t3', name:'Tomyam Beef', price:33000},
+    // Mie
+    {id:'n1', name:'Mie Thai', price:23000},
+    {id:'n2', name:'Mie Chili Oil', price:23000},
+    // Dessert
+    {id:'d1', name:'Es Jimi', price:12000}
+  ];
 
-    const menuList = document.getElementById('menu-list');
-    const cartModal = document.getElementById('cart-modal');
-    const cartItems = document.getElementById('cart-items');
-    const cartCount = document.getElementById('cart-count');
-    let cart = [];
+  const $=sel=>document.querySelector(sel);
+  const currency=v=>'Rp '+v.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 
-    function formatRupiah(num) {
-      return 'Rp ' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-
-    function renderMenu() {
-      menuList.innerHTML = '';
-      PRODUCTS.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${p.img}" alt="${p.name}">
-          <div class="card-body">
-            <h3>${p.name}</h3>
-            <p>${p.desc}</p>
+  const catalog=$('#catalog');
+  function renderCatalog(){
+    catalog.innerHTML='';
+    PRODUCTS.forEach(p=>{
+      const card=document.createElement('div');
+      card.className='card';
+      card.innerHTML=`
+        <img src="https://picsum.photos/seed/${p.id}/400/300" alt="${p.name}">
+        <div style="margin-top:6px">
+          <div style="font-weight:700">${p.name}</div>
+          <div class="small">${currency(p.price)}</div>
+          <div class="row" style="margin-top:8px">
+            <button class="btn" data-id="${p.id}">Tambah</button>
           </div>
-          <div class="card-footer">
-            <span class="price">${formatRupiah(p.price)}</span>
-            <button class="btn" onclick="addToCart('${p.id}')">Tambah</button>
-          </div>
-        `;
-        menuList.appendChild(card);
-      });
-    }
-
-    function addToCart(id) {
-      const item = PRODUCTS.find(p => p.id === id);
-      const existing = cart.find(c => c.id === id);
-      if (existing) existing.qty += 1;
-      else cart.push({...item, qty: 1});
-      updateCartCount();
-    }
-
-    function updateCartCount() {
-      const total = cart.reduce((sum, i) => sum + i.qty, 0);
-      cartCount.textContent = total;
-    }
-
-    function openCart() {
-      cartModal.style.display = 'flex';
-      renderCart();
-    }
-
-    function closeCart() {
-      cartModal.style.display = 'none';
-    }
-
-    function renderCart() {
-      if (cart.length === 0) {
-        cartItems.innerHTML = '<p>Keranjang masih kosong.</p>';
-        return;
-      }
-
-      cartItems.innerHTML = cart.map(i => `
-        <div class="cart-item">
-          <span>${i.qty}× ${i.name}</span>
-          <span>${formatRupiah(i.qty * i.price)}</span>
-        </div>
-      `).join('');
-
-      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-      cartItems.innerHTML += `<div class="cart-item" style="font-weight:700;border:none;">Total: ${formatRupiah(total)}</div>`;
-    }
-
-    document.getElementById('cart-float').addEventListener('click', openCart);
-    cartModal.addEventListener('click', e => { if (e.target === cartModal) closeCart(); });
-    document.getElementById('btn-clear').addEventListener('click', () => {
-      if (confirm('Kosongkan keranjang?')) {
-        cart = [];
-        updateCartCount();
-        renderCart();
-      }
+        </div>`;
+      catalog.appendChild(card);
     });
+  }
 
-    document.getElementById('btn-checkout').addEventListener('click', () => {
-      if (cart.length === 0) { alert('Keranjang kosong'); return; }
-      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-      let message = 'Halo Mieloka! Saya ingin memesan:\n';
-      cart.forEach(i => {
-        message += `${i.qty}× ${i.name} (${formatRupiah(i.price * i.qty)})\n`;
-      });
-      message += `\nTotal: ${formatRupiah(total)}\nTerima kasih!`;
-      const waUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`;
-      window.open(waUrl, '_blank');
-    });
+  // CART
+  const CART_KEY='mieloka_cart_v4';
+  function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY))||[]}catch(e){return[]}}
+  function saveCart(c){localStorage.setItem(CART_KEY,JSON.stringify(c));updateCartUI();}
+  function updateCartUI(){const c=loadCart();$('#cart-count').textContent=c.reduce((s,i)=>s+i.qty,0);}
+  catalog.addEventListener('click',e=>{
+    const btn=e.target.closest('button[data-id]');
+    if(!btn)return;
+    const id=btn.dataset.id;
+    const p=PRODUCTS.find(x=>x.id===id);
+    if(!p)return;
+    const c=loadCart();
+    const f=c.find(x=>x.id===id);
+    if(f)f.qty+=1;else c.push({...p,qty:1});
+    saveCart(c);
+  });
+  $('#cart-float').addEventListener('click',()=>{renderOrderSummary();$('#modal').style.display='flex';});
+  $('#btn-cancel').addEventListener('click',()=>$('#modal').style.display='none');
 
-    document.getElementById('year').textContent = new Date().getFullYear();
-    renderMenu();
+  function renderOrderSummary(){
+    const cart=loadCart();
+    const box=$('#order-summary');
+    if(cart.length===0){box.textContent='Keranjang kosong.';return;}
+    let txt=cart.map(i=>`${i.qty}× ${i.name} — ${currency(i.price*i.qty)}`).join('\n');
+    const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+    txt+=`\n\nTotal: ${currency(total)}`;
+    box.textContent=txt;
+  }
+
+  $('#checkout-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const cart=loadCart();
+    if(cart.length===0){alert('Keranjang kosong.');return;}
+    const f={
+      name:$('#cust-name').value.trim(),
+      tel:$('#cust-tel').value.trim(),
+      addr:$('#cust-address').value.trim(),
+      del:$('#cust-delivery').value,
+      pay:$('#cust-pay').value,
+      note:$('#cust-note').value.trim()
+    };
+    const orderLines=cart.map(i=>`${i.qty}× ${i.name} — ${currency(i.price*i.qty)}`);
+    const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+    const summary=`${orderLines.join('\n')}\nTotal: ${currency(total)}\nMetode: ${f.pay}`;
+    const payload=new URLSearchParams();
+    payload.append(GF_ENTRY_IDS.order_summary,summary);
+    payload.append(GF_ENTRY_IDS.cust_name,f.name);
+    payload.append(GF_ENTRY_IDS.cust_tel,f.tel);
+    payload.append(GF_ENTRY_IDS.cust_address,f.addr);
+    payload.append(GF_ENTRY_IDS.cust_delivery,f.del);
+    payload.append(GF_ENTRY_IDS.cust_pay,f.pay);
+    payload.append(GF_ENTRY_IDS.cust_note,f.note);
+    const btn=$('#btn-submit');btn.disabled=true;btn.textContent='Mengirim...';
+    try{
+      await fetch(GOOGLE_FORM_ACTION_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload.toString()});
+      saveCart([]);
+      const waMsg=encodeURIComponent(`Pesanan baru:\n${orderLines.join('\n')}\nTotal: ${currency(total)}\nNama: ${f.name}\nTel: ${f.tel}\nAlamat: ${f.addr}\nMetode: ${f.pay}\nPengantaran: ${f.del}\nCatatan: ${f.note}`);
+      window.open(`https://wa.me/${OWNER_WA_NUMBER}?text=${waMsg}`,'_blank');
+      btn.textContent='Terkirim ✓';
+      $('#submit-message').textContent='Pesanan berhasil dikirim ke Google Form dan notifikasi dikirim ke WhatsApp.';
+    }catch(err){alert('Gagal mengirim. Periksa koneksi.');btn.disabled=false;btn.textContent='Kirim Pesanan';}
+  });
+
+  renderCatalog();updateCartUI();$('#year').textContent=new Date().getFullYear();
   </script>
 </body>
 </html>
