@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mieloka — Marketplace UMKM lokal di bidang Food & Beverage dengan menu olahan mie seperti Martabak Mie, Martabak Usus, Somtam, Tomyam, dan Es Jemie.">
+  <meta name="author" content="Mieloka UMKM">
+  <title>Mieloka Marketplace — UMKM Lokal Mie & F&B</title>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #101b2d;
+      --accent: #ffb86b;
+      --text: #e6eef6;
+      --muted: #a0a8b8;
+      --radius: 12px;
+      --shadow: 0 6px 18px rgba(2, 6, 23, 0.5);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(180deg, #081226, #0c1426);
+      padding: 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 12px 16px;
+    }
+
+    .card-body h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .card-body p {
+      margin: 6px 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      min-height: 36px;
+    }
+
+    .card-footer {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0b1324;
+    }
+
+    .price {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .btn {
+      background: var(--accent);
+      color: #0c1424;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Floating cart */
+    #cart-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: #0c1424;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      z-index: 999;
+    }
+
+    /* Modal */
+    #cart-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: var(--shadow);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .cart-item span {
+      font-size: 0.9rem;
+    }
+
+    .cart-actions {
+      text-align: right;
+      margin-top: 16px;
+    }
+
+    .cart-actions .btn {
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MIELOKA</h1>
+    <p>UMKM lokal di bidang Food & Beverage — olahan mie khas Indonesia & Asia</p>
+  </header>
+
+  <main>
+    <h2 style="text-align:center;">🍜 Menu Unggulan Mieloka</h2>
+    <div class="grid" id="menu-list"></div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Mieloka — UMKM Lokal | Powered by GitHub Pages
+  </footer>
+
+  <div id="cart-float">🛒 Keranjang (<span id="cart-count">0</span>)</div>
+
+  <div id="cart-modal">
+    <div class="modal-content">
+      <h3>Keranjang Pesanan</h3>
+      <div id="cart-items"></div>
+      <div class="cart-actions">
+        <button class="btn" id="btn-clear">Kosongkan</button>
+        <button class="btn" id="btn-checkout">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PRODUCTS = [
+      {id:'1', name:'Martabak Mie Original', desc:'Martabak mie isi telur dan bumbu rahasia khas Mieloka.', price:22000, img:'https://picsum.photos/seed/martabakmie/400/300'},
+      {id:'2', name:'Martabak Usus', desc:'Gurih, pedas, renyah — favorit anak muda.', price:25000, img:'https://picsum.photos/seed/martabakusus/400/300'},
+      {id:'3', name:'Somtam (Salad Mie)', desc:'Rasa asam manis pedas segar khas Thailand.', price:28000, img:'https://picsum.photos/seed/somtam/400/300'},
+      {id:'4', name:'Tomyam Mie Kuah', desc:'Kuah tomyam pedas gurih dengan mie dan udang.', price:30000, img:'https://picsum.photos/seed/tomyam/400/300'},
+      {id:'5', name:'Es Jemie (Coming Soon)', desc:'Minuman segar khas Mieloka berbahan jemie.', price:12000, img:'https://picsum.photos/seed/esjemie/400/300'},
+    ];
+
+    const menuList = document.getElementById('menu-list');
+    const cartModal = document.getElementById('cart-modal');
+    const cartItems = document.getElementById('cart-items');
+    const cartCount = document.getElementById('cart-count');
+    let cart = [];
+
+    function formatRupiah(num) {
+      return 'Rp ' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function renderMenu() {
+      menuList.innerHTML = '';
+      PRODUCTS.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.name}">
+          <div class="card-body">
+            <h3>${p.name}</h3>
+            <p>${p.desc}</p>
+          </div>
+          <div class="card-footer">
+            <span class="price">${formatRupiah(p.price)}</span>
+            <button class="btn" onclick="addToCart('${p.id}')">Tambah</button>
+          </div>
+        `;
+        menuList.appendChild(card);
+      });
+    }
+
+    function addToCart(id) {
+      const item = PRODUCTS.find(p => p.id === id);
+      const existing = cart.find(c => c.id === id);
+      if (existing) existing.qty += 1;
+      else cart.push({...item, qty: 1});
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const total = cart.reduce((sum, i) => sum + i.qty, 0);
+      cartCount.textContent = total;
+    }
+
+    function openCart() {
+      cartModal.style.display = 'flex';
+      renderCart();
+    }
+
+    function closeCart() {
+      cartModal.style.display = 'none';
+    }
+
+    function renderCart() {
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p>Keranjang masih kosong.</p>';
+        return;
+      }
+
+      cartItems.innerHTML = cart.map(i => `
+        <div class="cart-item">
+          <span>${i.qty}× ${i.name}</span>
+          <span>${formatRupiah(i.qty * i.price)}</span>
+        </div>
+      `).join('');
+
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      cartItems.innerHTML += `<div class="cart-item" style="font-weight:700;border:none;">Total: ${formatRupiah(total)}</div>`;
+    }
+
+    document.getElementById('cart-float').addEventListener('click', openCart);
+    cartModal.addEventListener('click', e => { if (e.target === cartModal) closeCart(); });
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      if (confirm('Kosongkan keranjang?')) {
+        cart = [];
+        updateCartCount();
+        renderCart();
+      }
+    });
+
+    document.getElementById('btn-checkout').addEventListener('click', () => {
+      if (cart.length === 0) { alert('Keranjang kosong'); return; }
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      let message = 'Halo Mieloka! Saya ingin memesan:\n';
+      cart.forEach(i => {
+        message += `${i.qty}× ${i.name} (${formatRupiah(i.price * i.qty)})\n`;
+      });
+      message += `\nTotal: ${formatRupiah(total)}\nTerima kasih!`;
+      const waUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`;
+      window.open(waUrl, '_blank');
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderMenu();
+  </script>
+</body>
+</html>
