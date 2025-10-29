@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mieloka — Marketplace (with images)</title>
+<style>
+:root{--bg:#071226;--card:#0d1624;--accent:#ffb86b;--text:#e6eef6;--muted:#98a6b6}
+body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--text)}
+.wrap{max-width:1100px;margin:28px auto;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:18px}
+.card{background:var(--card);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+.thumb{height:140px;border-radius:8px;overflow:hidden;background:#091421;display:flex;align-items:center;justify-content:center}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.btn{background:var(--accent);color:#071226;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+.cart{position:fixed;right:18px;bottom:18px;background:var(--accent);padding:12px 14px;border-radius:999px;z-index:999;color:#071226}
+small{color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header><h1 style="color:var(--accent)">Mieloka</h1><p><small>Marketplace — images included</small></p></header>
+<section>
+<div class="grid" id="catalog"></div>
+</section>
+<div class="cart" id="cart">🛒 Keranjang (<span id="cart-count">0</span>)</div>
+</main>
+<script>
+const PRODUCTS = [
+  {
+    "id": "es-jemie-s",
+    "name": "Es Jemie (Small)",
+    "category": "dessert",
+    "price": 12000,
+    "img": "assets/es-jemie-s.jpeg"
+  },
+  {
+    "id": "es-jemie",
+    "name": "Es Jemie",
+    "category": "dessert",
+    "price": 25000,
+    "img": "assets/es-jemie.jpeg"
+  },
+  {
+    "id": "somtam-cumi",
+    "name": "Somtam Cumi",
+    "category": "somtam",
+    "price": 25000,
+    "img": "assets/somtam-cumi.jpeg"
+  },
+  {
+    "id": "somtam-kepiting",
+    "name": "Somtam Rajungan/Kepiting",
+    "category": "somtam",
+    "price": 50000,
+    "img": "assets/somtam-kepiting.jpeg"
+  },
+  {
+    "id": "somtam-kerang",
+    "name": "Somtam Kerang",
+    "category": "somtam",
+    "price": 25000,
+    "img": "assets/somtam-kerang.jpeg"
+  },
+  {
+    "id": "somtam-rajungan",
+    "name": "Somtam Rajungan/Kepiting",
+    "category": "somtam",
+    "price": 50000,
+    "img": "assets/somtam-rajungan.jpeg"
+  },
+  {
+    "id": "somtam-udang",
+    "name": "Somtam Udang",
+    "category": "somtam",
+    "price": 25000,
+    "img": "assets/somtam-udang.jpeg"
+  },
+  {
+    "id": "tomyam-bakso",
+    "name": "Tomyam Bakso-baksoan",
+    "category": "tomyam",
+    "price": 25000,
+    "img": "assets/tomyam-bakso.jpeg"
+  },
+  {
+    "id": "tomyam-beef",
+    "name": "Tomyam Beef",
+    "category": "tomyam",
+    "price": 25000,
+    "img": "assets/tomyam-beef.jpeg"
+  },
+  {
+    "id": "tomyam-seafood",
+    "name": "Tomyam Seafood",
+    "category": "tomyam",
+    "price": 25000,
+    "img": "assets/tomyam-seafood.jpeg"
+  }
+];
+
+const catalog = document.getElementById('catalog');
+function currency(v){return 'Rp ' + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+
+function renderCatalog(){catalog.innerHTML='';PRODUCTS.forEach(p=>{const card=document.createElement('div');card.className='card';card.innerHTML=`
+  <div class="thumb"><img src="${p.img}" alt="${p.name}"></div>
+  <div style="margin-top:8px"><div style="font-weight:700">${p.name}</div><div style="color:var(--muted)">${currency(p.price)}</div>
+  <div style="margin-top:8px"><button class="btn" data-id="${p.id}">Tambah</button></div></div>`;catalog.appendChild(card);})}
+
+const CART_KEY='mieloka_images_cart';
+function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY))||[]}catch(e){return[]}}
+function saveCart(c){localStorage.setItem(CART_KEY,JSON.stringify(c));updateCount();}
+function updateCount(){const c=loadCart();document.getElementById('cart-count').textContent=c.reduce((s,i)=>s+i.qty,0)}
+
+catalog.addEventListener('click',e=>{const btn=e.target.closest('button[data-id]');if(!btn) return;const id=btn.dataset.id;const p=PRODUCTS.find(x=>x.id===id);if(!p) return;const c=loadCart();const f=c.find(x=>x.id===id);if(f) f.qty+=1; else c.push({id:p.id,name:p.name,price:p.price,qty:1});saveCart(c);btn.disabled=true;btn.textContent='✓';setTimeout(()=>{btn.disabled=false;btn.textContent='Tambah'},600);});
+
+renderCatalog();updateCount();
+</script>
+</body>
+</html>
